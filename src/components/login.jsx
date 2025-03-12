@@ -3,39 +3,52 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const [message, setMessage] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [message, setMessage] = useState(""); 
   const navigate = useNavigate();
 
+  
   useEffect(() => {
-    fetch("/api/auth/session", { credentials: "include" })
+    fetch("http://localhost:8080/api/auth/session", { credentials: "include" }) 
       .then(res => res.json())
       .then(data => {
         if (data.loggedIn) {
-          setLoggedIn(true);
-      //    navigate("/dashboard");
+          setMessage("Already logged in");
+          setTimeout(() => navigate("/dashboard"), 2000);
         }
-      });
+      })
+      .catch((error) => console.error("Session check failed", error));
   }, []);
 
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify(formData),
-    });
-    const data = await res.json();
-    if (res.ok) {
+    setMessage(""); 
+
+    try {
+      const res = await fetch("http://localhost:8080/api/auth/login", {  
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", 
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        setMessage(errorData.error || "Login failed"); 
+        return;
+      }
+
+     
       setMessage("Login successful!");
-     // navigate("/dashboard");
-    } else {
-      setMessage(data.error);
+      setTimeout(() => navigate("/dashboard"), 2000);  
+
+    } catch (error) {
+      setMessage("Error connecting to the server.");
     }
   };
 
