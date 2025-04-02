@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./components/login";
+import ProtectedRoute from "./components/protectedRoute";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
+import ResetPassword from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
-
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route element={<ProtectedRoute />}>
         </Route>
       </Routes>
