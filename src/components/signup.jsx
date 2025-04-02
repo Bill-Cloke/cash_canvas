@@ -47,7 +47,8 @@ function Signup() {
   };
 
     return (
-        <div>
+        <div style={{ maxWidth: '700px', margin: '0 auto', padding: '1rem' }}>
+            <button onClick={() => navigate("/")}>Home</button>
             <h2>Signup</h2>
             <form onSubmit={handleSubmit}>
                 <input type="text" name="username" placeholder="Username" onChange={handleChange} required />

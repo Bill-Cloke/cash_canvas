@@ -53,6 +53,7 @@ function Login() {
 
   return (
     <div style={{ maxWidth: '400px', margin: '0 auto', padding: '1rem' }}>
+      <button onClick={() => navigate("/")}>Home</button>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input type="text" name="username" placeholder="Username" onChange={handleChange} required />

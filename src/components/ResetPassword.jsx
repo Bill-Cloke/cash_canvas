@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function ResetPassword() {
   const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ function ResetPassword() {
     newPassword: ''
   });
 
+  const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -46,6 +48,8 @@ function ResetPassword() {
 
   return (
     <div style={{ maxWidth: '400px', margin: '0 auto', padding: '1rem' }}>
+
+      <button onClick={() => navigate("/login")}>Back to Login</button>
       <h2>Reset Password</h2>
 
       <input
