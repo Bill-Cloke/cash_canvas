@@ -37,7 +37,19 @@ function Signup() {
         return;
       }
 
-     
+      const bankRes = await fetch("http://localhost:8080/api/auth/create-default-bank-account", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ username: formData.username })
+      });
+  
+      if (!bankRes.ok) {
+        const bankErrorData = await bankRes.json();
+        setMessage(bankErrorData.error || "Error creating default bank account");
+        return;
+      }
+
       setMessage("Signup successful!");
       setTimeout(() => navigate("/login"), 2000); 
 

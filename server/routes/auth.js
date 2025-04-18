@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import db from "../db.js";
+import authenticate from "../middleware/authenticate.js";
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || "supersecret";
@@ -13,8 +14,9 @@ const passwordRange = /^(?=.*[a-zA-Z]).{8,16}$/;
 
 router.post("/signup", async (req, res) => {
     const { username, password, access_phrase} = req.body;
-
+    
     try {
+
         if (!username || !usernameRange.test(username)) {
             return res.status(401).json({ error: "Username must be 4-20 characters (letters/numbers only)" });
         }
@@ -42,6 +44,7 @@ router.post("/signup", async (req, res) => {
         console.error("Signup error:", error); 
         res.status(500).json({ error: "Internal server error" });
     }
+
 });
 
 
@@ -56,10 +59,10 @@ router.post("/login", async (req, res) => {
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) return res.status(401).json({ error: "Invalid username or password" });
 
-        // Generates JWT
-        const token = jwt.sign({ userId: user.id, username: user.username }, SECRET_KEY, { expiresIn: "1h" });
+        
+        const token = jwt.sign({ userId: user.user_id, username: user.username }, SECRET_KEY, { expiresIn: "1h" });
 
-        // Stores JWT in cookie
+       
         res.cookie("authToken", token, { httpOnly: true, secure: false, maxAge: 3600000 }); // 1 hour
         res.json({ message: "Login successful" });
     } catch (error) {
@@ -105,8 +108,10 @@ router.post('/reset-password', async (req, res) => {
       if (!newPassword || !passwordRange.test(newPassword)) {
         return res.status(401).json({ error: "Password must be 8-16 characters and contain at least 1 letter" });
     }
+
+      const [user] = await db.promise().query('SELECT user_id FROM users WHERE username = ?', [username])
   
-      const userId = rows[0].user_id;
+      const userId = user[0].user_id;
   
       const hashedPassword = await bcrypt.hash(newPassword, 10);
   
@@ -118,6 +123,61 @@ router.post('/reset-password', async (req, res) => {
       res.status(500).json({ error: 'Server error during password reset.' });
     }
   });  
+
+  router.get('/transaction-history', authenticate, async (req, res) => {
+    const userId = req.user.userId; 
+
+    const query = `
+    SELECT
+        t.date,
+        t.amount,
+        t.merchant,
+        t.category,
+        b.mask
+    FROM transactions t
+    JOIN bank_accounts b ON t.account_id = b.account_id
+    WHERE b.user_id = ?
+    ORDER BY t.date DESC;
+  `;
+
+  
+    try {
+      const [results] = await db.promise().query(query, [userId]);
+      res.json(results);  
+    } catch (err) {
+      console.error("Error fetching transaction history:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+  
+
+  router.post("/create-default-bank-account", async (req, res) => {
+    const { username } = req.body;
+  
+    try {
+      
+    const [user] = await db.promise().query("SELECT user_id FROM users WHERE username = ?", [username]);
+    const userId = user[0].user_id;
+
+
+      await db.promise().query(
+        "INSERT INTO bank_accounts (user_id, name, mask, type, balance) VALUES (?, ?, ?, ?, ?)",
+        [
+          userId,   
+          'Cash',    
+          0,   
+          'Cash',    
+          0.00,      
+        ]
+      );
+  
+      res.json({ message: "Default bank account created successfully!" });
+  
+    } catch (err) {
+      console.error("Bank account creation error:", err);
+      res.status(500).json({ error: "Error creating default bank account" });
+    }
+});
 
 
 export default router;
