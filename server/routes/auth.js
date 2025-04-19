@@ -179,5 +179,28 @@ router.post('/reset-password', async (req, res) => {
     }
 });
 
+router.post("/input-transaction", authenticate, async (req, res) => {
+    const { date, amount, merchant, category } = req.body;
+    const userId = req.user.userId
+  
+    try {
+     
+      
+  
+      const [account] = await db.promise().query("SELECT account_id FROM bank_accounts WHERE user_id = ?", [userId]);
+      const accountId = account[0].account_id;
+  
+      await db.promise().query(
+        "INSERT INTO transactions (date, amount, merchant, category, account_id) VALUES (?, ?, ?, ?, ?)",
+        [date, amount, merchant, category, accountId]
+      );
+  
+      res.json({ message: "Transaction input successful!" });
+    } catch (err) {
+      console.error("Transaction input error:", err);
+      res.status(500).json({ error: "Error inputting transaction" });
+    }
+  });
+
 
 export default router;
