@@ -58,8 +58,8 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
         <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit">Login</button>
-        <button type="button" onClick={() =>  navigate("/reset-password")}> Forgot Password? </button>
+        <button type="submit" className ="bg-green-600 rounded hover:bg-green-700">Login</button>
+        <button type="button" className ="bg-green-600 rounded hover:bg-green-700" onClick={() =>  navigate("/reset-password")}> Forgot Password? </button>
       </form>
       <p>{message}</p>
     </div>

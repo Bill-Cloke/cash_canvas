@@ -37,7 +37,7 @@ function Signup() {
         return;
       }
 
-      const bankRes = await fetch("http://localhost:8080/api/auth/create-default-bank-account", {
+      const bankRes = await fetch("http://localhost:8080/api/bank/create-default-bank-account", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -60,14 +60,13 @@ function Signup() {
 
     return (
         <div style={{ maxWidth: '700px', margin: '0 auto', padding: '1rem' }}>
-            <button onClick={() => navigate("/")}>Home</button>
             <h2>Signup</h2>
             <form onSubmit={handleSubmit}>
                 <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
                 <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
                 <input type="password" name="password2" placeholder="Confirm Password" onChange={handleChange} required />
                 <input type="text" name="access_phrase" placeholder="Access Phrase" onChange={handleChange} required />
-                <button type="submit">Sign Up</button>
+                <button type="submit" className="bg-green-600 rounded hover:bg-green-700">Sign Up</button>
             </form>
             <p>{message}</p>
         </div>

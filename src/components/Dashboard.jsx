@@ -15,7 +15,7 @@ function Dashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:8080/api/auth/input-transaction", {
+      const res = await fetch("http://localhost:8080/api/bank/input-transaction", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
@@ -27,6 +27,10 @@ function Dashboard() {
         alert(result.message);
         setShowForm(false);
         setFormData({ date: '', amount: '', merchant: '', category: '' });
+
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
       } else {
         alert(result.error || 'Error inputting transaction');
       }

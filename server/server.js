@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.js";
+import bankRoutes from "./routes/bank.js";
 import path, {dirname} from 'path'
 import { fileURLToPath } from 'url';
 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist')))
 
 app.use('/api/auth', authRoutes)
+app.use('/api/bank', bankRoutes)
 
 if (process.env.NODE_ENV == 'development') {
     app.get('*', (req, res) => {
