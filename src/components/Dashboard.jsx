@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import TransactionHistory from "./TransactionHistory";
 import { NavLink } from "react-router-dom";
+import ConnectBankButton from "./ConnectBankButton";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -40,31 +41,32 @@ function Dashboard() {
   };
 
     
-  const handleLogout = async () => {
+  // const handleLogout = async () => {
     
-    try {
-      const res = await fetch("http://localhost:8080/api/auth/logout", {
-        method: "POST",
-        credentials: "include", 
-      });
+  //   try {
+  //     const res = await fetch("http://localhost:8080/api/auth/logout", {
+  //       method: "POST",
+  //       credentials: "include", 
+  //     });
 
-      if (res.ok) {
-        navigate("/");  
-      } else {
-        console.error("Logout failed");
-      }
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
+  //     if (res.ok) {
+  //       navigate("/");  
+  //     } else {
+  //       console.error("Logout failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error logging out:", error);
+  //   }
+  // };
 
   
   return (
-    <div>
-      <NavLink to='#' onClick={handleLogout}>Logout</NavLink>
+    <div className= "w-full h-max p-2 bg-blue-100 rounded flex flex-col relative ">
+      {/* <NavLink to='#' onClick={handleLogout}>Logout</NavLink> */}
       {/* <button onClick={handleLogout} className=" bg-green-600 hover:bg-green-700 rounded-1g">Logout</button> */}
       <h1>Dashboard</h1>
-      <button onClick={() => setShowForm(!showForm)} className="bg-green-600 text-black px-3 py-1 rounded hover:bg-green-700">
+      <ConnectBankButton />
+      <button onClick={() => setShowForm(!showForm)} className="bg-green-300 text-black px-3 py-1 rounded hover:bg-green-500">
         {showForm ? "Cancel" : "Add Transaction"}
       </button>
       {showForm && (

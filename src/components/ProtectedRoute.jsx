@@ -5,7 +5,7 @@ const ProtectedRoute = () => {
   const [auth, setAuth] = useState(null);
 
   useEffect(() => {
-    fetch("/api/auth/session", { credentials: "include" })
+    fetch("http://localhost:8080/api/auth/session", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setAuth(data.loggedIn));
   }, []);

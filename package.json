@@ -24,6 +24,7 @@
     "plaid": "^32.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-plaid-link": "^4.0.1",
     "react-router-dom": "^7.2.0",
     "tailwindcss": "^4.1.4"
   },

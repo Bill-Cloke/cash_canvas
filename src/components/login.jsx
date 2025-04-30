@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -52,14 +53,15 @@ function Login() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '1rem' }}>
+    <div style={{ maxWidth: '400px', margin: '1', padding: '1rem' }}>
      
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
         <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit" className ="bg-green-600 rounded hover:bg-green-700">Login</button>
-        <button type="button" className ="bg-green-600 rounded hover:bg-green-700" onClick={() =>  navigate("/reset-password")}> Forgot Password? </button>
+        <button type="submit" className ="bg-green-300 rounded hover:bg-green-500">Login</button>
+        {/* <button type="button" className ="bg-green-600 rounded hover:bg-green-700" onClick={() =>  navigate("/reset-password")}> Forgot Password? </button> */}
+        <NavLink to="/reset-password"> Forgot Password? </NavLink>
       </form>
       <p>{message}</p>
     </div>

@@ -85,5 +85,67 @@ router.post("/input-transaction", authenticate, async (req, res) => {
     }
   });
 
+  router.post('/create_link_token', authenticate, async (req, res, next) => {
+    const client = req.app.locals.plaidClient;
+    try {
+      const { data } = await client.linkTokenCreate({
+        user:          { client_user_id: String(req.user.id) },
+        client_name:   'Cash Canvas',
+        products:      ['auth', 'transactions'],
+        country_codes: ['US'],
+        language:      'en',
+      });
+      res.json({ linkToken: data.link_token });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.post('/exchange_public_token', authenticate, async (req, res, next) => {
+    const client   = req.app.locals.plaidClient;
+    const { public_token } = req.body;
+    const userId   = req.user.userId;
+  
+    try {
+      // exchange public_token for access_token & item_id
+      const exchangeRes = await client.itemPublicTokenExchange({ public_token });
+      const { access_token, item_id } = exchangeRes.data;
+  
+      // fetch all the linked accounts
+      const accountsRes = await client.accountsGet({ access_token });
+      const accounts    = accountsRes.data.accounts; 
+  
+      
+      const insertSQL = `
+        INSERT INTO bank_accounts
+          (user_id, access_token, item_id, name, mask, type, balance)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `;
+  
+      
+      await Promise.all(accounts.map(acct => {
+        return db.promise().query(
+          insertSQL,
+          [
+            userId,
+            access_token,
+            item_id,
+            acct.name,            
+            acct.mask,            
+            acct.subtype,       
+            acct.balances.current 
+          ]
+        );
+      }));
+  
+      res.json({
+        success: true,
+        item_id,
+        accounts_added: accounts.length
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
 
 export default router;
