@@ -85,7 +85,7 @@ router.post("/input-transaction", authenticate, async (req, res) => {
     }
   });
 
-  router.post('/create_link_token', authenticate, async (req, res, next) => {
+router.post('/create_link_token', authenticate, async (req, res, next) => {
     const client = req.app.locals.plaidClient;
     try {
       const { data } = await client.linkTokenCreate({
@@ -101,7 +101,7 @@ router.post("/input-transaction", authenticate, async (req, res) => {
     }
   });
 
-  router.post('/exchange_public_token', authenticate, async (req, res, next) => {
+router.post('/exchange_public_token', authenticate, async (req, res, next) => {
     const client   = req.app.locals.plaidClient;
     const { public_token } = req.body;
     const userId   = req.user.userId;
@@ -147,5 +147,22 @@ router.post("/input-transaction", authenticate, async (req, res) => {
       next(err);
     }
   });
+
+router.get('/accounts', authenticate, async (req, res, next) => {
+    const userId = req.user.userId;
+    try {
+        const [accounts] = await db.promise().query(
+            `SELECT account_id, name, mask, type, balance FROM bank_accounts WHERE user_id = ?`,
+        [userId]
+        );
+      res.json(accounts);
+    }
+    catch (err) {
+      next(err);
+    }
+   
+});
+
+
 
 export default router;

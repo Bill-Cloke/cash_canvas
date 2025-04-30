@@ -26,7 +26,10 @@ function ConnectBankButton() {
         .then(res => res.json())
         .then(result => {
         console.log('Bank account added:', result);
-        // TODO: refetch bank_accounts list here
+     
+        window.location.reload()
+          
+       
       })
       .catch(console.error);
     }, []);
@@ -63,7 +66,7 @@ function ConnectBankButton() {
         <button
             onClick={() => open()}
             disabled={!ready}
-            className="px-4 py-2 bg-green-300 text-black rounded hover:bg-green-500"
+            className=" bg-green-300 text-black px-2 py-1 rounded hover:bg-green-400"
         >
             Connect Bank Account
         </button>

@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import TransactionHistory from "./TransactionHistory";
 import { NavLink } from "react-router-dom";
 import ConnectBankButton from "./ConnectBankButton";
+import BankAccounts from "./BankAccounts";
 
 function Dashboard() {
+  
   const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({date: '', amount: '', merchant: '', category: '',});
@@ -64,10 +66,11 @@ function Dashboard() {
     <div className= "w-full h-max p-2 bg-blue-100 rounded flex flex-col relative ">
       {/* <NavLink to='#' onClick={handleLogout}>Logout</NavLink> */}
       {/* <button onClick={handleLogout} className=" bg-green-600 hover:bg-green-700 rounded-1g">Logout</button> */}
-      <h1>Dashboard</h1>
+      <h1 className='text-xl text-center font-semibold my-2'>Dashboard</h1>
+      <BankAccounts />
       <ConnectBankButton />
-      <button onClick={() => setShowForm(!showForm)} className="bg-green-300 text-black px-3 py-1 rounded hover:bg-green-500">
-        {showForm ? "Cancel" : "Add Transaction"}
+      <button onClick={() => setShowForm(!showForm)} className="bg-green-300 text-black px-3 py-1 rounded hover:bg-green-400">
+        {showForm ? "Cancel" : "Add Cash Transaction"}
       </button>
       {showForm && (
         <form onSubmit={handleSubmit} className="space-y-2 p-4 bg-gray-100 rounded">
@@ -75,7 +78,7 @@ function Dashboard() {
           <input type="number" step="0.01" name="amount" value={formData.amount} onChange={handleChange} placeholder="Amount" required />
           <input type="text" name="merchant" value={formData.merchant} onChange={handleChange} placeholder="Merchant" required />
           <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category" required />
-          <button type="submit" className="bg-green-600 text-black px-2 py-1 rounded">Submit</button>
+          <button type="submit" className="bg-green-300 text-black px-2 py-1 rounded-1g hover:bg-green-400">Submit</button>
         </form>
       )}
 

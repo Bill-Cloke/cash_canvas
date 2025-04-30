@@ -1,10 +1,12 @@
 import { NavLink } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState("false");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     fetch('http://localhost:8080/api/auth/session', {
@@ -15,7 +17,7 @@ const Navbar = () => {
         setLoggedIn(data.loggedIn);
       })
       .catch(() => setLoggedIn(false));
-  }, []);
+  }, [location]);
 
 
   const handleLogout = async () => {
@@ -26,6 +28,9 @@ const Navbar = () => {
     });
     
     if (res.ok) {
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
       navigate("/");  
     } else {
       console.error("Logout failed");

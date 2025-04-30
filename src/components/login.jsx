@@ -12,7 +12,7 @@ function Login() {
       .then(res => res.json())
       .then(data => {
         if (data.loggedIn) {
-          setMessage("Already logged in");
+          setMessage("logged in");
           setTimeout(() => navigate("/dashboard"), 2000);
         }
       })
@@ -43,9 +43,9 @@ function Login() {
         return;
       }
 
-     
+      
       setMessage("Login successful!");
-      setTimeout(() => navigate("/dashboard"), 2000);  
+      setTimeout(() => navigate("/dashboard"), 2000); 
 
     } catch (error) {
       setMessage("Error connecting to the server.");
@@ -53,17 +53,27 @@ function Login() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '1', padding: '1rem' }}>
-     
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit" className ="bg-green-300 rounded hover:bg-green-500">Login</button>
-        {/* <button type="button" className ="bg-green-600 rounded hover:bg-green-700" onClick={() =>  navigate("/reset-password")}> Forgot Password? </button> */}
-        <NavLink to="/reset-password"> Forgot Password? </NavLink>
-      </form>
-      <p>{message}</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
+          <form onSubmit={handleSubmit}>
+            <input type="text" name="username" placeholder="Username" 
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition" 
+              onChange={handleChange} required 
+            />
+            <input type="password" name="password" placeholder="Password" 
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition"
+              onChange={handleChange} required 
+            />
+            <button type="submit" className ="w-full py-1 bg-green-300 rounded hover:bg-green-400 font-medium">Login</button>
+            {/* <button type="button" className ="bg-green-600 rounded hover:bg-green-700" onClick={() =>  navigate("/reset-password")}> Forgot Password? </button> */}
+          </form>
+          <div className="flex justify-between mt-4">
+            <NavLink to="/signup">Sign Up</NavLink>
+            <NavLink to="/reset-password">Forgot Password?</NavLink>
+          </div>
+          <p>{message}</p>
+      </div>
     </div>
   );
 }
