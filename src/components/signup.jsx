@@ -59,17 +59,19 @@ function Signup() {
   };
 
     return (
-        <div style={{ maxWidth: '700px', margin: '0 auto', padding: '1rem' }}>
-            <h2>Signup</h2>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+          <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-semibold text-center mb-6">Signup</h2>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
-                <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-                <input type="password" name="password2" placeholder="Confirm Password" onChange={handleChange} required />
-                <input type="text" name="access_phrase" placeholder="Access Phrase" onChange={handleChange} required />
-                <button type="submit" className="bg-green-600 rounded hover:bg-green-700">Sign Up</button>
+                <input type="text" name="username" placeholder="Username" className='mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} required />
+                <input type="password" name="password" placeholder="Password" className='mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} required />
+                <input type="password" name="password2" placeholder="Confirm Password" className='mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} required />
+                <input type="text" name="access_phrase" placeholder="Access Phrase" className='mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} required />
+                <button type="submit" className ="w-full mt-2 styled-button">Sign Up</button>
             </form>
             <p>{message}</p>
         </div>
+      </div>
     );
     }
 

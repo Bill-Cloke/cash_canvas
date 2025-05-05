@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import db from "../db.js";
 import authenticate from "../middleware/authenticate.js";
+import syncPlaidTransactions from "../middleware/syncPlaidTransactions.js";
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || "supersecret";
@@ -25,7 +26,8 @@ router.get('/transaction-history', authenticate, async (req, res) => {
 
   
     try {
-      const [results] = await db.promise().query(query, [userId]);
+      await syncPlaidTransactions(userId);
+      const [results] = await db.query(query, [userId]);
       res.json(results);  
     } catch (err) {
       console.error("Error fetching transaction history:", err);
@@ -39,11 +41,11 @@ router.post("/create-default-bank-account", async (req, res) => {
   
     try {
       
-    const [user] = await db.promise().query("SELECT user_id FROM users WHERE username = ?", [username]);
+    const [user] = await db.query("SELECT user_id FROM users WHERE username = ?", [username]);
     const userId = user[0].user_id;
 
 
-      await db.promise().query(
+      await db.query(
         "INSERT INTO bank_accounts (user_id, name, mask, type, balance) VALUES (?, ?, ?, ?, ?)",
         [
           userId,   
@@ -70,10 +72,10 @@ router.post("/input-transaction", authenticate, async (req, res) => {
      
       
   
-      const [account] = await db.promise().query("SELECT account_id FROM bank_accounts WHERE user_id = ?", [userId]);
+      const [account] = await db.query("SELECT account_id FROM bank_accounts WHERE user_id = ?", [userId]);
       const accountId = account[0].account_id;
   
-      await db.promise().query(
+      await db.query(
         "INSERT INTO transactions (date, amount, merchant, category, account_id) VALUES (?, ?, ?, ?, ?)",
         [date, amount, merchant, category, accountId]
       );
@@ -118,13 +120,13 @@ router.post('/exchange_public_token', authenticate, async (req, res, next) => {
       
       const insertSQL = `
         INSERT INTO bank_accounts
-          (user_id, access_token, item_id, name, mask, type, balance)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+          (user_id, access_token, item_id, name, mask, type, balance, p_account_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `;
   
       
       await Promise.all(accounts.map(acct => {
-        return db.promise().query(
+        return db.query(
           insertSQL,
           [
             userId,
@@ -133,7 +135,8 @@ router.post('/exchange_public_token', authenticate, async (req, res, next) => {
             acct.name,            
             acct.mask,            
             acct.subtype,       
-            acct.balances.current 
+            acct.balances.current,
+            acct.account_id, 
           ]
         );
       }));
@@ -151,7 +154,7 @@ router.post('/exchange_public_token', authenticate, async (req, res, next) => {
 router.get('/accounts', authenticate, async (req, res, next) => {
     const userId = req.user.userId;
     try {
-        const [accounts] = await db.promise().query(
+        const [accounts] = await db.query(
             `SELECT account_id, name, mask, type, balance FROM bank_accounts WHERE user_id = ?`,
         [userId]
         );

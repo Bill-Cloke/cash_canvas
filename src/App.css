@@ -17,10 +17,14 @@
 
 }
 
+@theme {
+  --color-money: #85bb65;
+}
+
 @layer base {
-  a {
-  @apply bg-green-300 p-2 relative rounded-lg text-black ml-1 mr-1;
-  @apply hover:bg-green-400;
+  a, .styled-button {
+  @apply bg-money p-2 relative rounded-lg text-black ml-1 mr-1;
+  @apply hover:bg-green-600 transition-all;
   }
 
 

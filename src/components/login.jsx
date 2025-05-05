@@ -65,7 +65,7 @@ function Login() {
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition"
               onChange={handleChange} required 
             />
-            <button type="submit" className ="w-full py-1 bg-green-300 rounded hover:bg-green-400 font-medium">Login</button>
+            <button type="submit" className ="w-full mt-2 styled-button">Login</button>
             {/* <button type="button" className ="bg-green-600 rounded hover:bg-green-700" onClick={() =>  navigate("/reset-password")}> Forgot Password? </button> */}
           </form>
           <div className="flex justify-between mt-4">

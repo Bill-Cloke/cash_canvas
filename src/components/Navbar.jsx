@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import logo from "../assets/Logo-large.png"
 
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = useState("false");
@@ -42,10 +43,10 @@ const Navbar = () => {
 
 
   return (
-    <div className='w-full h-max p-2 bg-green-300 flex flex-row relative '>
-      <h1>$$CashCanvas</h1>
+    <div className='w-full h-max p-2 bg-blue-100 flex flex-row relative items-center'>
+      <img src={logo} alt="Logo" className="h-10" />
 
-      <div className='absolute right-2 top-2'>
+      <div className='absolute right-10'>
         <NavLink to='/'>Home</NavLink>
         {loggedIn ? (
           <NavLink to='#' onClick={handleLogout}> Logout </NavLink>

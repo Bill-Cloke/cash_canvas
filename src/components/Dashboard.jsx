@@ -64,21 +64,22 @@ function Dashboard() {
   
   return (
     <div className= "w-full h-max p-2 bg-blue-100 rounded flex flex-col relative ">
+      {/* <img src={vite}/> */}
       {/* <NavLink to='#' onClick={handleLogout}>Logout</NavLink> */}
       {/* <button onClick={handleLogout} className=" bg-green-600 hover:bg-green-700 rounded-1g">Logout</button> */}
       <h1 className='text-xl text-center font-semibold my-2'>Dashboard</h1>
       <BankAccounts />
       <ConnectBankButton />
-      <button onClick={() => setShowForm(!showForm)} className="bg-green-300 text-black px-3 py-1 rounded hover:bg-green-400">
+      <button onClick={() => setShowForm(!showForm)} className="styled-button mt-1 mb-2">
         {showForm ? "Cancel" : "Add Cash Transaction"}
       </button>
       {showForm && (
-        <form onSubmit={handleSubmit} className="space-y-2 p-4 bg-gray-100 rounded">
-          <input type="date" name="date" value={formData.date} onChange={handleChange} required />
-          <input type="number" step="0.01" name="amount" value={formData.amount} onChange={handleChange} placeholder="Amount" required />
-          <input type="text" name="merchant" value={formData.merchant} onChange={handleChange} placeholder="Merchant" required />
-          <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category" required />
-          <button type="submit" className="bg-green-300 text-black px-2 py-1 rounded-1g hover:bg-green-400">Submit</button>
+        <form onSubmit={handleSubmit} className="space-y-2 p-4 border border-gray-300 bg-gray-100 rounded">
+          <input type="date" name="date" value={formData.date} className='w-60 h-8 border border-gray-300 mx-2 px-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} required />
+          <input type="number" step="0.01" name="amount" value={formData.amount} className='w-60 border border-gray-300 p-1 mx-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} placeholder="Amount" required />
+          <input type="text" name="merchant" value={formData.merchant} className='w-60 border border-gray-300 mx-2 p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} placeholder="Merchant" required />
+          <input type="text" name="category" value={formData.category} className='w-60 border border-gray-300 p-1 mx-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} placeholder="Category" required />
+          <button type="submit" className="styled-button">Submit</button>
         </form>
       )}
 

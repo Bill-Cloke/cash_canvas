@@ -66,7 +66,7 @@ function ConnectBankButton() {
         <button
             onClick={() => open()}
             disabled={!ready}
-            className=" bg-green-300 text-black px-2 py-1 rounded hover:bg-green-400"
+            className="styled-button mt-2 mb-1"
         >
             Connect Bank Account
         </button>

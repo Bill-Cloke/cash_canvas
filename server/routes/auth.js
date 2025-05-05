@@ -25,7 +25,7 @@ router.post("/signup", async (req, res) => {
             return res.status(401).json({ error: "Password must be 8-16 characters and contain at least 1 letter" });
         }
 
-        const [existingUsers] = await db.promise().query("SELECT * FROM users WHERE username = ?", [username]);
+        const [existingUsers] = await db.query("SELECT * FROM users WHERE username = ?", [username]);
         if (existingUsers.length > 0) {
             return res.status(401).json({ error: "Username already taken" });
         }
@@ -37,7 +37,7 @@ router.post("/signup", async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const hashedAccessPhrase = await bcrypt.hash(access_phrase, 10);
 
-        await db.promise().query("INSERT INTO users (username, password, access_phrase) VALUES (?, ?, ?)", [username, hashedPassword, hashedAccessPhrase]);
+        await db.query("INSERT INTO users (username, password, access_phrase) VALUES (?, ?, ?)", [username, hashedPassword, hashedAccessPhrase]);
 
         res.json({ message: "Signup successful!" });
     } catch (error) {
@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const [users] = await db.promise().query("SELECT * FROM users WHERE username = ?", [username]);
+        const [users] = await db.query("SELECT * FROM users WHERE username = ?", [username]);
         if (users.length === 0) return res.status(401).json({ error: "Invalid username or password" });
 
         const user = users[0];
@@ -97,7 +97,7 @@ router.post('/reset-password', async (req, res) => {
     }
   
     try {
-        const [rows] = await db.promise().query('SELECT access_phrase FROM users WHERE username = ?', [username]);
+        const [rows] = await db.query('SELECT access_phrase FROM users WHERE username = ?', [username]);
 
         const isMatch = await bcrypt.compare(access_phrase, rows[0].access_phrase);
         
@@ -109,13 +109,13 @@ router.post('/reset-password', async (req, res) => {
         return res.status(401).json({ error: "Password must be 8-16 characters and contain at least 1 letter" });
     }
 
-      const [user] = await db.promise().query('SELECT user_id FROM users WHERE username = ?', [username])
+      const [user] = await db.query('SELECT user_id FROM users WHERE username = ?', [username])
   
       const userId = user[0].user_id;
   
       const hashedPassword = await bcrypt.hash(newPassword, 10);
   
-      await db.promise().query('UPDATE users SET password = ? WHERE user_id = ?', [hashedPassword, userId]);
+      await db.query('UPDATE users SET password = ? WHERE user_id = ?', [hashedPassword, userId]);
 
       res.json({ message: 'Password successfully reset.' });
     } catch (err) {
