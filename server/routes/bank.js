@@ -79,6 +79,11 @@ router.post("/input-transaction", authenticate, async (req, res) => {
         "INSERT INTO transactions (date, amount, merchant, category, account_id) VALUES (?, ?, ?, ?, ?)",
         [date, amount, merchant, category, accountId]
       );
+
+      await db.query(
+        "UPDATE bank_accounts SET balance = balance + ? WHERE account_id = ? AND name = 'Cash'",
+        [amount, accountId]
+      );
   
       res.json({ message: "Transaction input successful!" });
     } catch (err) {

@@ -1,8 +1,8 @@
-import db from '../db.js';                   // your promise‐wrapped pool
-import plaidClient from '../plaidClient.js'; // the PlaidApi instance
+import db from '../db.js';                   
+import plaidClient from '../plaidClient.js'; 
 
 export default async function syncPlaidTransactions(userId) {
-  // 1) load this user’s Plaid‐linked accounts + cursors
+  
   const [acctRows] = await db.query(
     `SELECT 
        account_id,
@@ -16,17 +16,17 @@ export default async function syncPlaidTransactions(userId) {
     [userId]
   );
 
-  // 2) group them by access_token (one item → many accounts)
+  // group them by access_token 
   const byToken = acctRows.reduce((h, a) => {
     (h[a.access_token] ||= []).push(a);
     return h;
   }, {});
 
-  // 3) sync each token
+  // sync each token
   for (const [access_token, rows] of Object.entries(byToken)) {
     const cursor = rows[0].last_sync_cursor || undefined;
 
-    // build the request object
+    
     const syncReq = {
       access_token,
       count:           500,
@@ -34,7 +34,7 @@ export default async function syncPlaidTransactions(userId) {
     //    include_removed: true
     };
 
-    console.log('→ Plaid sync request:', JSON.stringify(syncReq, null, 2));
+    console.log('Plaid sync request:', JSON.stringify(syncReq, null, 2));
 
     let data;
     try {
@@ -45,9 +45,9 @@ export default async function syncPlaidTransactions(userId) {
     }
     const { added, modified, removed, next_cursor } = data;
 
-    // 4) bulk-upsert all added + modified
+  
     const toInsert = [...added, ...modified].map(tx => {
-      // match Plaid's tx.account_id to your p_account_id
+      
       const local = rows.find(r => r.p_account_id === tx.account_id);
       return [
         local.account_id,
@@ -55,7 +55,7 @@ export default async function syncPlaidTransactions(userId) {
         tx.date,
         tx.amount,
         tx.name,
-        // use the new personal_finance_category if available
+        
         tx.personal_finance_category?.primary
           || tx.category?.[0]
           || 'Uncategorized'
@@ -77,7 +77,7 @@ export default async function syncPlaidTransactions(userId) {
       );
     }
 
-    // 5) delete any removed transactions
+    
     if (removed.length) {
       const ids = removed.map(r => r.transaction_id);
       await db.query(
@@ -86,7 +86,7 @@ export default async function syncPlaidTransactions(userId) {
       );
     }
 
-    // 6) persist the new cursor & timestamp
+    
     await db.query(
       `UPDATE bank_accounts
          SET last_sync_cursor = ?, last_sync_at = NOW()
