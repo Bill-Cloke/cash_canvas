@@ -49,8 +49,7 @@ function ResetPassword() {
   return (
     <div style={{ maxWidth: '400px', margin: '0 auto', padding: '1rem' }}>
 
-      <button onClick={() => navigate("/login")}>Back to Login</button>
-      <h2>Reset Password</h2>
+      <button onClick={() => navigate("/login")} className='w-full mt-2 styled-button'>Back to Login</button>
 
       <input
         type="text"
@@ -58,7 +57,7 @@ function ResetPassword() {
         placeholder="Username"
         value={formData.username}
         onChange={handleChange}
-        style={{ display: 'block', width: '100%', marginBottom: '1rem' }}
+        className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition"
       />
 
       <input
@@ -67,7 +66,7 @@ function ResetPassword() {
         placeholder="Access Phrase"
         value={formData.accessPhrase}
         onChange={handleChange}
-        style={{ display: 'block', width: '100%', marginBottom: '1rem' }}
+        className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition"
       />
 
       <input
@@ -76,10 +75,10 @@ function ResetPassword() {
         placeholder="New Password"
         value={formData.newPassword}
         onChange={handleChange}
-        style={{ display: 'block', width: '100%', marginBottom: '1rem' }}
+        className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition"
       />
 
-      <button onClick={handleSubmit} style={{ width: '100%' }}>
+      <button onClick={handleSubmit} className='w-full mt-2 styled-button'>
         Reset Password
       </button>
 

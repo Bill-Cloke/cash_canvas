@@ -43,7 +43,7 @@ const Navbar = () => {
 
 
   return (
-    <div className='w-full h-max p-2 bg-blue-100 flex flex-row relative items-center'>
+    <div className='w-full h-max p-2 bg-green-50 flex flex-row relative items-center'>
       <img src={logo} alt="Logo" className="h-10" />
 
       <div className='absolute right-10'>

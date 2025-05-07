@@ -56,8 +56,7 @@ function ConnectBankButton() {
         token: linkToken,
         onSuccess,
         onExit,
-        onEvent,
-        onError,
+        onEvent
     }
 
     const { open, ready } = usePlaidLink(config);
@@ -66,7 +65,7 @@ function ConnectBankButton() {
         <button
             onClick={() => open()}
             disabled={!ready}
-            className="styled-button mt-2 mb-1"
+            className="styled-button mt-2 mb-2 max-w-100"
         >
             Connect Bank Account
         </button>

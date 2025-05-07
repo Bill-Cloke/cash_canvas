@@ -34,7 +34,7 @@ export default async function syncPlaidTransactions(userId) {
     //    include_removed: true
     };
 
-    console.log('Plaid sync request:', JSON.stringify(syncReq, null, 2));
+    // console.log('Plaid sync request:', JSON.stringify(syncReq, null, 2));
 
     let data;
     try {

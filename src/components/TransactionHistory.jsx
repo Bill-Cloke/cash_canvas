@@ -31,7 +31,7 @@ function TransactionHistory() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading Transactions...</div>;
   }
 
   /*return (
@@ -52,10 +52,10 @@ function TransactionHistory() {
   )*/
 
     return (
-      <div>
-        <table className='border-1'>
+      <div className='w-full h-max flex justify-center'>
+        <table className='border-1 rounded'>
           <thead>
-            <tr className='py-2 border-b-2'>
+            <tr className='py-2 border-b-2 bg-green-50'>
               <th>Date</th>
               <th>Merchant</th>
               <th>Category</th>
@@ -65,12 +65,12 @@ function TransactionHistory() {
           </thead>
           <tbody>
             {transactions.map((txn, idx) => (
-              <tr key={idx} className='py-1 border-b-1 odd:bg-gray-200'>
+              <tr key={idx} className='py-1 border-b-1 odd:bg-gray-200 even:bg-white'>
                 <td>{new Date(txn.date).toLocaleDateString()}</td>
                 <td>{txn.merchant}</td>
                 <td>{txn.category}</td>
                 <td>${txn.amount}</td>
-                <td>{txn.mask === 0 ? "Cash" : txn.mask}</td>
+                <td>{txn.mask === 8080 ? "Cash" : txn.mask}</td>
               </tr>
             ))}
           </tbody>

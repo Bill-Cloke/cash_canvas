@@ -40,7 +40,7 @@ function BankAccounts() {
                     >
                         <div className="flex justify-between items-baseline">
                             <h3 className="font-medium text-gray-800">{acc.name}</h3>
-                            <span className="text-sm text-gray-500">••••{acc.mask}</span>
+                            <span className="text-sm text-gray-500">••••{acc.mask === 8080 ? "Cash": acc.mask}</span>
                         </div>
                         <p className="text-sm text-gray-600 capitalize">{acc.type}</p>
                         <p className="mt-2 text-lg font-semibold">

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+
+
 @layer components {
 
   .logo {
@@ -17,14 +19,16 @@
 
 }
 
+
 @theme {
   --color-money: #85bb65;
+  --font-ShadowsIntoLight: 'Shadows Into Light', cursive;
 }
 
 @layer base {
   a, .styled-button {
-  @apply bg-money p-2 relative rounded-lg text-black ml-1 mr-1;
-  @apply hover:bg-green-600 transition-all;
+  @apply bg-money p-2 relative rounded-lg text-black font-serif text-xl ml-1 mr-1;
+  @apply hover:bg-green-200 transition-all;
   }
 
 

@@ -63,27 +63,36 @@ function Dashboard() {
 
   
   return (
-    <div className= "w-full h-max p-2 bg-blue-100 rounded flex flex-col relative ">
+    <div className= "w-full h-max p-2 bg-green-50 rounded flex flex-col relative ">
       {/* <img src={vite}/> */}
       {/* <NavLink to='#' onClick={handleLogout}>Logout</NavLink> */}
       {/* <button onClick={handleLogout} className=" bg-green-600 hover:bg-green-700 rounded-1g">Logout</button> */}
-      <h1 className='text-xl text-center font-semibold my-2'>Dashboard</h1>
+      <div className='w-full h-max flex justify-center '>
+        <h1 className='text-xl text-center font-semibold my-2 bg-white p-4 rounded-lg shadow flex flex-col mx-110  min-w-40 font-ShadowsIntoLight'>Canvas</h1>
+      </div>
       <BankAccounts />
-      <ConnectBankButton />
-      <button onClick={() => setShowForm(!showForm)} className="styled-button mt-1 mb-2">
-        {showForm ? "Cancel" : "Add Cash Transaction"}
-      </button>
-      {showForm && (
-        <form onSubmit={handleSubmit} className="space-y-2 p-4 border border-gray-300 bg-gray-100 rounded">
-          <input type="date" name="date" value={formData.date} className='w-60 h-8 border border-gray-300 mx-2 px-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} required />
-          <input type="number" step="0.01" name="amount" value={formData.amount} className='w-60 border border-gray-300 p-1 mx-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} placeholder="Amount" required />
-          <input type="text" name="merchant" value={formData.merchant} className='w-60 border border-gray-300 mx-2 p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} placeholder="Merchant" required />
-          <input type="text" name="category" value={formData.category} className='w-60 border border-gray-300 p-1 mx-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} placeholder="Category" required />
-          <button type="submit" className="styled-button">Submit</button>
-        </form>
-      )}
+      <div className='w-full h-max flex flex-col items-center'>
+        <div className='flex flex-col'>
+          <ConnectBankButton />
+          <button onClick={() => setShowForm(!showForm)} className="styled-button mt-2 mb-2 max-w-100 max-h-10">
+            {showForm ? "Cancel" : "Add Cash Transaction"}
+          </button>
+        </div>
 
-      <TransactionHistory /> 
+      <div className='max-h-30'>  
+        {showForm && (
+          <form onSubmit={handleSubmit} className="space-y-2 p-4 border border-green-400 bg-white rounded ">
+            <input type="date" name="date" value={formData.date} className='w-60 h-8 border border-gray-300 mx-2 px-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} required />
+            <input type="number" step="0.01" name="amount" value={formData.amount} className='w-60 border border-gray-300 p-1 mx-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} placeholder="Amount" required />
+            <input type="text" name="merchant" value={formData.merchant} className='w-60 border border-gray-300 mx-2 p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} placeholder="Merchant" required />
+            <input type="text" name="category" value={formData.category} className='w-60 border border-gray-300 p-1 mx-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition' onChange={handleChange} placeholder="Category" required />
+            <button type="submit" className="styled-button">Submit</button>
+          </form>
+        )}
+      </div>
+    </div>
+
+      <TransactionHistory/> 
     </div>
   );
 }

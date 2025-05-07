@@ -50,7 +50,7 @@ router.post("/create-default-bank-account", async (req, res) => {
         [
           userId,   
           'Cash',    
-          0,   
+          8080,   
           'Cash',    
           0.00,      
         ]
