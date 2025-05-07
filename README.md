@@ -18,7 +18,8 @@ DB_HOST=localhost
 DB_USER=your_mysql_user
 DB_PASS=your_mysql_password
 DB_NAME=cashcanvas
-
+NODE_ENV = development
+PORT = 8080
 PLAID_ENV=sandbox
 PLAID_CLIENT_ID=...
 PLAID_SECRET=...
